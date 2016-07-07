@@ -27,7 +27,7 @@ function resetFields() {
 
 $(document).ready(function() {
   $("#add-address").click(function() {
-    $("#new-addresses").append('<div class="new-address dan">' +
+    $("#new-addresses").append('<div class="new-address addl_address">' +
                                  '<div class="form-group">' +
                                    '<label for="new-street">Street</label>' +
                                    '<input type="text" class="form-control new-street">' +
@@ -42,20 +42,30 @@ $(document).ready(function() {
                                  '</div>' +
                                '</div>');
   });
+
   $("form#new-contact").submit(function(event) {
     event.preventDefault();
     var addy = 0;
     var inputtedFirstName = $("input#new-first-name").val();
     var inputtedLastName = $("input#new-last-name").val();
+
+    // create contact object for each firstname-lastname pair
     var newContact = new Contact(inputtedFirstName, inputtedLastName);
 
+    // cycle thru address form(s) extracting input
     $(".new-address").each(function() {
       var inputtedStreet = $(this).find("input.new-street").val();
       var inputtedCity = $(this).find("input.new-city").val();
       var inputtedState = $(this).find("input.new-state").val();
+
+      // for each, create new address object
       var newAddress = new Address(inputtedStreet, inputtedCity, inputtedState);
+
+      // place array of address objects within contact object
       newContact.addresses.push(newAddress);
-      $(".dan").hide();
+
+      // hide the addl_address form fields
+      $(".addl_address").hide();
     });
 
     $("ul#contacts").append("<li><span class='contact'>" + newContact.fullName() + "</span></li>");
